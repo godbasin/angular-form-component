@@ -1,0 +1,29 @@
+{
+  "name": "angular-form-components",
+  "version": "0.0.7",
+  "description": "normal form component(select/select2/datetimepicker/checkbox-group/radio-group/...) in angular4(>=2.0-release)",
+  "main": "index.ts",
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/godbasin/angular-form-component.git"
+  },
+  "keywords": [
+    "angular",
+    "angular2",
+    "angular4",
+    "select2",
+    "datetimepicker",
+    "bootstrap-datetimepicker"
+  ],
+  "author": "godbasin <wangbeishan@163.com> (https://github.com/godbasin)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/godbasin/angular-form-component/issues"
+  },
+  "engines": {
+    "node": ">=4.2.4"
+  },
+  "homepage": "https://github.com/godbasin/angular-form-component#readme"
+}
