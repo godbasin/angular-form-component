@@ -40,6 +40,7 @@ import {
     RadioWithTextComponent,
     RadioGroupComponent,
     UploadImageComponent,
+    UploadFileComponent,
     CheckboxGroupComponent,
     CheckboxWithTextComponent,
     DateTimePickerComponent,
@@ -55,6 +56,7 @@ import {
     RadioWithTextComponent,
     RadioGroupComponent,
     UploadImageComponent,
+    UploadFileComponent,
     CheckboxGroupComponent,
     CheckboxWithTextComponent,
     DateTimePickerComponent,
@@ -93,6 +95,8 @@ export class YourModule {
     - 3 or 'year' for the 12-month overview （year view）
     - 4 or 'decade' for the 10-year overview. Useful for date-of-birth datetimepickers.
 - `minView`: `string`
+- `useTimestamp`: `boolean`
+  - if `[(ngModel)]` use timestamp, default `false`
 - `disabled`: `boolean`
   - isDisabled: default false
 - `onSelect`
@@ -183,6 +187,73 @@ export class YourModule {
 - `ngModel`: option that is selected(`option`)
 - `disabled`: `boolean`
   - isDisabled: default false
+
+6. select-with-input
+
+**Template**
+
+``` html
+<select-with-input [(ngModel)]='your_prop' [options]='your_options' [disabled]='your_condition' (onSelect)="onSelect($event)"></select-with-input>
+```
+
+**Options**
+
+- `options`: `option[]`
+  - select options for select2
+  - `option`: `{id: value, text: key}`
+- `ngModel`: option value that is selected or input value(`string`)
+- `onSelect`
+  - callback when option selected
+  - parmas: option value that is selected or input value(`string`)
+
+7. upload-image
+
+**Template**
+
+``` html
+<upload-image [(ngModel)]='images_list_array' [limit]='limit_condition' [multiple]='if_multiple' [disabled]='your_condition' [btnName]='btn_name'></upload-image>
+```
+
+**Options**
+
+- `ngModel`: images array(`image base64 string[]`)
+- `limit`: limit conditions
+  - `{width, height, size, type}`
+  - `width`: image max width(px)
+  - `height`: image max height(px)
+  - `size`: image max size(k)
+  - `type`: image type, accept 'jpeg'/'jpg'/'png'/'gif'
+- `multiple`: `boolean`
+  - if upload multiple images, default true
+- `disabled`: `boolean`
+  - isDisabled: default false
+- `btnName`: string
+  - button display name
+
+8. upload-file
+
+**Template**
+
+``` html
+<upload-file [(ngModel)]='your_prop' [multiple]='if_multiple' [limit]='limit_condition' [disabled]='your_condition' [btnName]="btn_name" ></upload-file>
+```
+
+**Options**
+
+- `ngModel`: files array(`file base64 string[]`)
+- `limit`: limit conditions
+  - `{size, type}`
+  - `size`: file max size(k)
+  - `type`: file type, such as 'txt'
+- `multiple`: `boolean`
+  - if upload multiple files, default true
+- `disabled`: `boolean`
+  - isDisabled: default false
+- `btnName`: string
+  - button display name
+- `dataType`: string
+  - file reader data type
+  - accept 'DataURL'/'ArrayBuffer'/'BinaryString'/'Text', default 'DataURL'
 
 ### Use Directive
 

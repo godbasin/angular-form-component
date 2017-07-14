@@ -1,6 +1,6 @@
 /**
  * desc：select-with-input
- * how to use: <select-with-input [(ngModel)]='your_prop' [options]='your_options' [disabled]='your_condition' ></select-with-input>gi
+ * how to use: <select-with-input [(ngModel)]='your_prop' [options]='your_options' [disabled]='your_condition' ></select-with-input>
  */
 
 import { Component, Input, Output, EventEmitter } from '@angular/core';
@@ -21,7 +21,7 @@ interface IOption{
 export class SelectWithInputComponent {
     @Input() options: IOption[] = []; // object: {id, text}
     @Input() disabled: boolean = false;
-    @Output() select = new EventEmitter<any>();
+    @Output() onSelect = new EventEmitter<any>();
 
     isOpen: boolean = false;
 
@@ -34,6 +34,7 @@ export class SelectWithInputComponent {
         this.viewModel = option.text; // set view value
         this.model = option.id;       // set inner value
         this.onChange(this.model);
+        this.onSelect.emit(this.model);
         this.isOpen = false;
     }
 
@@ -43,6 +44,7 @@ export class SelectWithInputComponent {
         const option = this.options && this.options.find(x => x.text === value);
         this.model = option ? option.id : value;
         this.onChange(this.model);
+        this.onSelect.emit(this.model);
     }
 
     isSelected(option: IOption){

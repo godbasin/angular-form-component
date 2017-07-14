@@ -12,11 +12,38 @@ require('./assets/datetimepicker/bootstrap-datetimepicker.js');
 import {Component, Input, AfterViewInit, ElementRef, EventEmitter, Output, ViewEncapsulation} from '@angular/core';
 import {CustomInputComponent, customInputAccessor} from './custom-input';
 
+(function () {
+  // Format Date into string.
+  // month(M)、day(d)、hour(h)、minute(m)、second(s)、quarterly(q) , 1 or 2 character，
+  // Samples：
+  // (new Date()).Format("yyyy-MM-dd hh:mm:ss.S") ==> 2006-07-02 08:09:04.423
+  // (new Date()).Format("yyyy-M-d h:m:s.S")      ==> 2006-7-2 8:9:4.18
+  (Date as any).prototype.format = function (fmt) { //author: meizz
+    var o = {
+      "M+": this.getMonth() + 1, // Month
+      "d+": this.getDate(), // Day
+      "h+": this.getHours(), // Hour
+      "m+": this.getMinutes(), // Minute
+      "s+": this.getSeconds(), // Second
+      "q+": Math.floor((this.getMonth() + 3) / 3), // Quarterly
+      "S": this.getMilliseconds() // Millisecond
+    };
+    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+    for (var k in o)
+      if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+    return fmt;
+  };
+})();
+
+declare interface IDate extends Date{
+  format: (fmt: any) => string;
+}
+
 @Component({
   selector: 'date-time-picker',
-  template: `<input type="text" class="form-control" [disabled]="disabled" [(ngModel)]="model" (blur)="onBlur()" />`,
+  template: `<input type="text" class="form-control" [disabled]="disabled" [(ngModel)]="viewValue" (blur)="onBlur()" />`,
   styleUrls: ['./assets/datetimepicker/bootstrap-datetimepicker.css'],
-    encapsulation: ViewEncapsulation.None,
+  encapsulation: ViewEncapsulation.None,
   providers: [customInputAccessor(DateTimePickerComponent)]
 })
 // ControlValueAccessor: A bridge between a control and a native element.
@@ -75,11 +102,14 @@ export class DateTimePickerComponent implements AfterViewInit {
       format, // output format
       minView: parseInt(this.minView, 10) || minView || 0, // min view (default: hour view)
     })
-      .on('hide', ev => {
-        this.viewValue = $(ev.target).val(); // set value. (calling onChange())
-        this.model = this.useTimestamp ? (new Date(this.model).getTime() / 1000) : this.viewValue;
-        this.onSelect.emit({timestamp: this.model, text: this.viewValue}); // change event callback of input
-      });
+        .on('hide', ev => {
+          this.viewValue = $(ev.target).val(); // set value. (calling onChange())
+          // If use timestamp, change string into timestamp.
+          //
+          this.model = this.useTimestamp ? (Date.parse(this.viewValue) / 1000) : this.viewValue;
+          this.onChange(this.model);
+          this.onSelect.emit({timestamp: this.model, text: this.viewValue}); // change event callback of input
+        });
   }
 
   // Set touched on blur
@@ -89,10 +119,10 @@ export class DateTimePickerComponent implements AfterViewInit {
 
   // Write a new value to the element.
   writeValue(value: string): void {
-    if (value !== this.model) {
+    if (value && value !== this.model) {
       this.model = value;
       const vd = new Date((+value) * 1000); // multiply 1000 for server timestamp
-      this.viewValue = vd.format(this.formatStr);
+      this.viewValue = (vd as IDate).format(this.formatStr);
     }
   }
 

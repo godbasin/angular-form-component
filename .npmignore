@@ -1,0 +1,10 @@
+# Node generated files
+node_modules
+npm-debug.log
+.idea
+
+# Ignored files
+# *.ts
+# *.js
+# *.map
+# *.d.ts

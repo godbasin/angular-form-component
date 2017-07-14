@@ -1,6 +1,6 @@
 /**
  * desc：upload-image
- * how to use: <upload-image [(ngModel)]='your_prop' [limit]='limit_condition' [disabled]='your_condition' [btnName]="btn_name" ></upload-image>
+ * how to use: <upload-image [(ngModel)]='your_prop' [multiple]='if_multiple' [limit]='limit_condition' [disabled]='your_condition' [btnName]="btn_name" ></upload-image>
  */
 import {Component, Input, OnInit, ElementRef} from '@angular/core';
 import {customInputAccessor} from '../custom-input';
@@ -22,6 +22,7 @@ export class UploadImageComponent implements OnInit {
     @Input() required: boolean = false;
     @Input() limit: ILimit = {};
     @Input() btnName: string = 'upload images';
+    @Input() multiple: boolean = true;
 
     imagesArr: any = [];
     help: string = '';

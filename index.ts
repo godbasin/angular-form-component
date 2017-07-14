@@ -6,4 +6,5 @@ export * from './src/radio-with-input.component';
 export * from './src/select2.component';
 export * from './src/select-with-input/select-with-input.component';
 export * from './src/upload-image/upload-image.component';
+export * from './src/upload-file/upload-file.component';
 export * from './src/on-focus-lost.directive';

@@ -1,6 +1,6 @@
 {
   "name": "angular-form-components",
-  "version": "0.0.7",
+  "version": "0.1.0",
   "description": "normal form component(select/select2/datetimepicker/checkbox-group/radio-group/...) in angular4(>=2.0-release)",
   "main": "index.ts",
   "scripts": {
