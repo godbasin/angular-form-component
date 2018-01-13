@@ -18,7 +18,7 @@ Select2Component is based on these plugins and libs(version):
 ### Install
 ``` cmd
 # npm install
-npm install angular-form-component --save
+npm install angular-form-components --save
 
 # if you have not installed jquery
 npm install jquery --save
